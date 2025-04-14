@@ -13,13 +13,13 @@ async function init () {
     console.log('connect to database')
 
     let SQL = 
-        `DROP TABLE IS EXISTS flavors;
+        `DROP TABLE IF EXISTS flavors;
         CREATE TABLE flavors (
-            id SERIAL PRIMARY_KEY,
+            id SERIAL PRIMARY KEY,
             name VARCHAR(255),
-            is_favorite BOOLEAN DEFULT False NOT NULL,
-            created_at TIMESTAMP DEFAULT now,
-            updated_at TIMESTAMP DEFAULT now,
+            is_favorite BOOLEAN DEFAULT False NOT NULL,
+            created_at TIMESTAMP DEFAULT now(),
+            updated_at TIMESTAMP DEFAULT now()
         );
     `;
 
@@ -34,6 +34,8 @@ async function init () {
 
     await client.query(SQL);
     console.log("data seeded");
+    const port = process.env.PORT || 3000;
+    server.listen(port, () => console.log(`listening on port ${port}`));
 }
 
 init ();
